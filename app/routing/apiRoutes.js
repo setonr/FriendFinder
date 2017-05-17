@@ -1,6 +1,4 @@
 var friendData = require("../data/friends.js");
-var express = require("express");
-var app = express();
 
 module.exports = function(app) {
 	//display a JSON of all possible friends
@@ -8,35 +6,56 @@ module.exports = function(app) {
 		res.json(friendData);
 	});
 	//post incoming survey data
-	app.post("/api/friends", function(req, res) {
+	app.post("/api/new", function(req, res) {
 		var newUser = req.body;
-		console.log(newUser.scores);
-		var index = compare(friendData, newUser);
 		friendData.push(newUser);
-
-		function findFriend(friends, user) {
-			var differences = [];
-			for (var i = 0; i < friends.length; i++) {
-				var totalDifference = 0;
-				for (var j = 0; j < 10; j++) {
-					var difference = Math.abs(friends[i].scores[j] - user.scores[j]);
-					totalDifference += difference;
-				}
-
-				differences.push(totalDifference);
-			}
-
-			var closestMatch = Math.min.apply(null, differences);
-			var index = differences.indexOf(closestMatch);
-			return index;
-		}
-		
-		console.log(friendData[index]);
-
-		res.json(friendData[index]);
-
+		res.json(newUser);
 	});
-}
+};
 
+// 		console.log(newUser);
 
+// 		var friendsArray = [];
+// 		var userScores = newUser.scores;
+	
+// 		// var index = compare(friendData, newUser);
+// 		// friendData.push(newUser);
 
+// 		for (var i = 0; i < friendData.length; i++) {
+// 			var matchCloseness=0;
+// 			var friendScores = friendData[i].answers;
+// 			for (var j=0; j < friendScores.length; j++) {
+// 				matchCloseness += Math.abs(parseInt(friendScores[j]) - parseInt(userScores[j]));
+// 			}
+
+// 			friendsArray.push(matchCloseness);
+// 		}
+
+// 		console.log(friendsArray);
+
+// 		var smallest = Math.min(friendsArray);
+// 		console.log(smallest);
+
+// 		var match = [];
+
+// 		for (var i = 0; i < friendsArray; i++) {
+// 			if (smallest === friendsArray[i]) {
+// 				match.push(i);
+// 			}
+// 		}
+
+// 		console.log(match);
+// 		var newFriends = [];
+
+// 		for (var i = 0; i < match.length; i++) {
+// 			var friend = friendData[match[i]];
+
+// 			newFriends.push(friend);
+// 		}
+
+// 		console.log(newFriends);
+
+// 		res.json(newFriends);
+// });
+
+// }
